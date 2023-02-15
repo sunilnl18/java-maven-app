@@ -1,24 +1,47 @@
 pipeline {
 	agent any
-	tools {
-        maven 'm1' 
-    }
 	stages {
-		stage('Build') {
+	    stage ('clean up') {
+	        steps {
+	            cleanWs()
+	        }
+	    }
+	    
+	    stage ('clone') {
 			steps {
-				sh 'mvn -B -DskipTests clean install'
+				sh 'git clone https://github.com/rakesh-2502/java-maven-app.git'
 			}
-		}
-		stage('Test') {
+	    }
+		stage ('build') {
 			steps {
-				sh 'mvn test'
+			    dir ('java-maven-app'){
+				    sh 'mvn clean install -DskipTests'
+			    }
+			}
+		
+		}
+		stage ('test') {
+			steps {
+			    dir ('java-maven-app') {
+				    sh 'mvn test'
+			    }
 			}
 			post {
 				always {
-					junit 'target/surefire-reports/*.xml'
+				    dir ('java-maven-app') {
+					    junit 'target/surefire-reports/*.*xml'
+					    archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+				    }
 				}
 			}
 		}
+		stage ('run') {
+			steps {
+			    dir ('java-maven-app') {
+			    	sh './scripts/deliver.sh'
+			    }
+			}
 		
+		}
 	}
 }
