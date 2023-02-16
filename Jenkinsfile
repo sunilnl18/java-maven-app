@@ -30,7 +30,6 @@ pipeline {
 				always {
 				    dir ('java-maven-app') {
 					    junit 'target/surefire-reports/*.*xml'
-					    archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
 				    }
 				}
 			}
