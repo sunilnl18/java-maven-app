@@ -38,7 +38,7 @@ pipeline {
 		stage ('run') {
 			steps {
 			    dir ('java-maven-app') {
-				    echo "hello Sunil"
+				    echo "hello Sunil again!"
 			    	sh './scripts/deliver.sh'
 			    }
 			}
