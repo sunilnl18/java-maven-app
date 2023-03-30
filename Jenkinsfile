@@ -2,6 +2,9 @@ pipeline {
 	agent {
 		label 'master'
 	}
+	tools {
+		maven 'maven'
+	}
 	stages {
 	       stage ('clean up') {
 	               steps {
