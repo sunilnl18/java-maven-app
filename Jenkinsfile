@@ -1,5 +1,7 @@
 pipeline {
-	agent 'any'
+	agent {
+	label 'slave2userpass'
+      }	
 	tools {
 	maven 'maven'
       }
