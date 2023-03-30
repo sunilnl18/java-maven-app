@@ -1,17 +1,20 @@
 pipeline {
-	agent any
+	agent 'any'
+	tools {
+	maven 'maven'
+      }
 	stages {
-	    stage ('clean up') {
-	        steps {
-	            cleanWs()
+	       stage ('clean up') {
+	               steps {
+	                      cleanWs()
+	               }
 	        }
-	    }
 	    
-	    stage ('clone') {
+	       stage ('clone') {
 			steps {
 				sh 'git clone https://github.com/sunilnl18/java-maven-app.git'
 			}
-	    }
+	        }
 		stage ('build') {
 			steps {
 			    dir ('java-maven-app'){
@@ -42,7 +45,6 @@ pipeline {
 			    	sh './scripts/deliver.sh'
 			    }
 			}
-		
 		}
 	}
 }
