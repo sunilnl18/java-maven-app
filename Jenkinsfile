@@ -1,10 +1,5 @@
 pipeline {
-	agent {
-	label 'slave2userpass'
-      }	
-	tools {
-	maven 'maven'
-      }
+	agent any
 	stages {
 	       stage ('clean up') {
 	               steps {
