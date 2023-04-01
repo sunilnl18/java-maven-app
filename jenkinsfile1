@@ -1,0 +1,36 @@
+pipeline {
+ agent any
+ environment {
+ ARTIFACTORY_SERVER = 'https://my-artifactory-server.com'
+ ARTIFACTORY_USER = 'my-artifactory-user'
+ ARTIFACTORY_PASSWORD = credentials('my-artifactory-credentials')
+ }
+ stages {
+ stage('Build') {
+ steps {
+ // Build the application
+ }
+ }
+ stage('Publish Artifacts') {
+ steps {
+ artifactory server: "${ARTIFACTORY_SERVER}", 
+ deployerCredentialsId: "${ARTIFACTORY_USER}",
+ deployerCredentialsPassword: "${ARTIFACTORY_PASSWORD}",
+ publishBuildInfo: true,
+ artifacts: [
+ // Specify the artifacts to publish
+ ]
+ }
+ }
+ stage('Resolve Dependencies') {
+ steps {
+ artifactory server: "${ARTIFACTORY_SERVER}", 
+ resolverCredentialsId: "${ARTIFACTORY_USER}",
+ resolverCredentialsPassword: "${ARTIFACTORY_PASSWORD}",
+ resolve: [
+ // Specify the dependencies to resolve
+ ]
+ }
+ }
+ }
+}
